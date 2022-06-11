@@ -572,6 +572,8 @@ namespace Emby.Server.Implementations
 
             serviceCollection.AddSingleton<ISessionManager, SessionManager>();
 
+            serviceCollection.AddHostedService<PowerManager>();
+
             serviceCollection.AddSingleton<IDlnaManager, DlnaManager>();
 
             serviceCollection.AddSingleton<ICollectionManager, CollectionManager>();
