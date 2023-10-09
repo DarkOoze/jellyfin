@@ -42,9 +42,20 @@ namespace Emby.Server.Implementations.Session
                     continue;
                 }
 
-                using (lockFactory())
+                try
                 {
-                    await _playbackManager.PlaybackCompleted(stoppingToken).ConfigureAwait(false);
+                    _logger.LogInformation("Begin sleep lock.");
+
+                    using (lockFactory())
+                    {
+                        await _playbackManager.PlaybackCompleted(stoppingToken).ConfigureAwait(false);
+                    }
+
+                    _logger.LogInformation("End sleep lock.");
+                }
+                catch (Exception e)
+                {
+                    _logger.LogError(e, "Error locking");
                 }
             }
         }
